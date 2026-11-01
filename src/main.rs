@@ -1,33 +1,43 @@
 use catppuccin::PALETTE;
 use macroquad::prelude::*;
 
+struct Paddle {
+    y: f32,
+    speed: f32,
+    colour: Color,
+    length: f32,
+}
+
 #[macroquad::main("play pong against an ai")]
 async fn main() {
-    // start player at centre
-    let mut player_paddle_y: f32 = screen_height() / 2.0;
-    const PADDLE_LENGTH: f32 = 75.0;
-    const PADDLE_SPEED: f32 = 200.0;
+    // player paddle
+    let mut player = Paddle {
+        y: screen_width() / 2.0,
+        speed: 200.0,
+        colour: RED,
+        length: 75.0,
+    };
 
     loop {
         // to ensure the movement is the same regardless of framerate
         let dt = get_frame_time();
-        let is_too_high: bool = player_paddle_y < 0.0;
-        let is_too_low: bool = player_paddle_y >= screen_height() - PADDLE_LENGTH;
+        let is_too_high: bool = player.y < 0.0;
+        let is_too_low: bool = player.y >= screen_height() - player.length;
 
         // movement input (support for both qwerty and engrammer (mine))
         if is_key_down(KeyCode::Y) || is_key_down(KeyCode::W) {
             if !is_too_high {
-                player_paddle_y -= PADDLE_SPEED * dt;
+                player.y -= player.speed * dt;
             }
         }
         if is_key_down(KeyCode::I) || is_key_down(KeyCode::S) {
             if !is_too_low {
-                player_paddle_y += PADDLE_SPEED * dt;
+                player.y += player.speed * dt;
             }
         }
 
         // render stuff
-        draw_rectangle(10.0, player_paddle_y, 10.0, PADDLE_LENGTH, WHITE);
+        draw_rectangle(10.0, player.y, 10.0, player.length, player.colour);
 
         next_frame().await;
     }
