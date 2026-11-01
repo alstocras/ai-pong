@@ -1,5 +1,10 @@
 use macroquad::prelude::*;
 
+// helper functions and vars
+fn is_off_screen(pos: Vec2) -> bool {
+    return pos.x < 0.0 || pos.x > screen_width() || pos.y < 0.0 || pos.y > screen_height();
+}
+
 struct Paddle {
     y: f32,
     speed: f32,
@@ -26,8 +31,8 @@ async fn main() {
     };
 
     let mut main_ball = Ball {
-        position: vec2(0.0, 0.0),
-        speed: 200.0,
+        position: vec2(screen_width() / 2.0, screen_height() / 2.0),
+        speed: 150.0,
         direction: vec2(-1.0, 0.0),
         size: 20.0,
         colour: WHITE,
@@ -54,7 +59,9 @@ async fn main() {
         // move ball
         let velocity: Vec2 = main_ball.direction * main_ball.speed * dt;
         main_ball.position += velocity;
-        println!("ball position: {:?}", main_ball.position);
+        if is_off_screen(main_ball.position) {
+            main_ball.position = vec2(screen_width() / 2.0, screen_height() / 2.0);
+        }
 
         // render stuff
         draw_rectangle(10.0, player.y, 10.0, player.length, player.colour);
