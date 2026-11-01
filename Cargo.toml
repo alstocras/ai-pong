@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+catppuccin = "2.8.0"
 macroquad = { version = "0.4.16", features = ["audio"] }
 macroquad-particles = "0.2.2"
 
