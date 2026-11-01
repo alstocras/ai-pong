@@ -7,6 +7,14 @@ struct Paddle {
     length: f32,
 }
 
+struct Ball {
+    position: Vec2,
+    speed: f32,
+    direction: IVec2,
+    size: f32,
+    colour: Color,
+}
+
 #[macroquad::main("play pong against an ai")]
 async fn main() {
     // player paddle
@@ -15,6 +23,14 @@ async fn main() {
         speed: 200.0,
         colour: GOLD,
         length: 75.0,
+    };
+
+    let mut main_ball = Ball {
+        position: vec2(0.0, 0.0),
+        speed: 200.0,
+        direction: ivec2(-1, 0),
+        size: 20.0,
+        colour: WHITE,
     };
 
     loop {
@@ -34,6 +50,8 @@ async fn main() {
                 player.y += player.speed * dt;
             }
         }
+
+        // move ball
 
         // render stuff
         draw_rectangle(10.0, player.y, 10.0, player.length, player.colour);
