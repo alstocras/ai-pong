@@ -2,8 +2,29 @@ use macroquad::prelude::*;
 
 #[macroquad::main("play pong against an ai")]
 async fn main() {
+    // start player at centre
+    let mut player_paddle_y: f32 = screen_height() / 2.0;
+    const PADDLE_LENGTH: f32 = 75.0;
+    const PADDLE_SPEED: f32 = 200.0;
+
     loop {
-        draw_rectangle(50.0, 50.0, 50.0, 50.0, WHITE);
+        // to ensure the movement is the same regardless of framerate
+        let dt = get_frame_time();
+
+        // movement input (support for both qwerty and engrammer (mine))
+        if is_key_down(KeyCode::Y) || is_key_down(KeyCode::W) {
+            if !(player_paddle_y < 0.0) {
+                player_paddle_y -= PADDLE_SPEED * dt;
+            }
+        }
+        if is_key_down(KeyCode::I) || is_key_down(KeyCode::S) {
+            if !(player_paddle_y >= (screen_height() - PADDLE_LENGTH)) {
+                player_paddle_y += PADDLE_SPEED * dt;
+            }
+        }
+
+        // render stuff
+        draw_rectangle(10.0, player_paddle_y, 10.0, PADDLE_LENGTH, WHITE);
 
         next_frame().await;
     }
