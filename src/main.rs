@@ -1,4 +1,3 @@
-use catppuccin::PALETTE;
 use macroquad::prelude::*;
 
 struct Paddle {
@@ -14,7 +13,7 @@ async fn main() {
     let mut player = Paddle {
         y: screen_width() / 2.0,
         speed: 200.0,
-        colour: RED,
+        colour: GOLD,
         length: 75.0,
     };
 
