@@ -10,7 +10,7 @@ struct Paddle {
 struct Ball {
     position: Vec2,
     speed: f32,
-    direction: IVec2,
+    direction: Vec2,
     size: f32,
     colour: Color,
 }
@@ -28,7 +28,7 @@ async fn main() {
     let mut main_ball = Ball {
         position: vec2(0.0, 0.0),
         speed: 200.0,
-        direction: ivec2(-1, 0),
+        direction: vec2(-1.0, 0.0),
         size: 20.0,
         colour: WHITE,
     };
@@ -52,9 +52,18 @@ async fn main() {
         }
 
         // move ball
+        let velocity: Vec2 = main_ball.direction * main_ball.speed * dt;
+        main_ball.position += velocity;
+        println!("ball position: {:?}", main_ball.position);
 
         // render stuff
         draw_rectangle(10.0, player.y, 10.0, player.length, player.colour);
+        draw_circle(
+            main_ball.position.x,
+            main_ball.position.y,
+            main_ball.size,
+            main_ball.colour,
+        );
 
         next_frame().await;
     }
