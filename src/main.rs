@@ -25,10 +25,7 @@ fn are_two_things_colliding(
 }
 fn perform_paddle_ball_collision(paddle: &Paddle, ball: &mut Ball) {
     if are_two_things_colliding(
-        vec2(
-            paddle.x + paddle.width / 2.0,
-            paddle.y + paddle.length / 2.0,
-        ),
+        vec2(paddle.x, paddle.y),
         ball.position,
         vec2(paddle.width, paddle.length),
         vec2(ball.size, ball.size),
@@ -36,6 +33,7 @@ fn perform_paddle_ball_collision(paddle: &Paddle, ball: &mut Ball) {
         // bounce it
         ball.direction.x *= -1.0;
         ball.direction.y *= -1.0;
+        ball.speed += paddle.speed / 2.0;
     }
 }
 
@@ -71,7 +69,7 @@ async fn main() {
     // test hardcoded enemy
     let mut hardcoded_enemy = Paddle {
         y: screen_height() / 2.0,
-        x: screen_width() - 1.0,
+        x: screen_width() - 10.0,
         speed: 200.0,
         colour: RED,
         length: 75.0,
@@ -113,6 +111,9 @@ async fn main() {
         if is_off_screen_horizontally(main_ball.position) {
             main_ball.position = vec2(screen_width() / 2.0, screen_height() / 2.0);
         }
+
+        // update enemy x (to stay in the correct spot even if window is resized)
+        hardcoded_enemy.x = screen_width() - 10.0;
 
         // make enemy OP (for now)
         hardcoded_enemy.y = main_ball.position.y - hardcoded_enemy.length / 2.0;
