@@ -9,7 +9,15 @@ fn are_two_things_colliding(
     thing2_pos: Vec2,
     thing1_dimen: Vec2,
     thing2_dimen: Vec2,
-) {
+) -> bool {
+    let thing1_rect = Rect::new(thing1_pos.x, thing1_pos.y, thing1_dimen.x, thing1_dimen.y);
+    let thing2_rect = Rect::new(thing2_pos.x, thing2_pos.y, thing2_dimen.x, thing2_dimen.y);
+
+    if thing1_rect.overlaps(&thing2_rect) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 struct Paddle {
@@ -68,6 +76,14 @@ async fn main() {
         main_ball.position += velocity;
         if is_off_screen_vertically(main_ball.position) {
             main_ball.position = vec2(screen_width() / 2.0, screen_height() / 2.0);
+        }
+        if are_two_things_colliding(
+            vec2(50.0, player.y),
+            main_ball.position,
+            vec2(10.0, player.length),
+            vec2(main_ball.size, main_ball.size),
+        ) {
+            println!("collision!");
         }
 
         // render stuff
