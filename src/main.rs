@@ -59,7 +59,7 @@ async fn main() {
 
     let mut main_ball = Ball {
         position: vec2(screen_width() / 2.0, screen_height() / 2.0),
-        speed: 300.0,
+        speed: 500.0,
         direction: vec2(f32(), f32()),
         size: 15.0,
         colour: WHITE,
