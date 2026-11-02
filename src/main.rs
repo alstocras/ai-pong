@@ -78,12 +78,14 @@ async fn main() {
             main_ball.position = vec2(screen_width() / 2.0, screen_height() / 2.0);
         }
         if are_two_things_colliding(
-            vec2(50.0, player.y),
+            vec2(10.0, player.y),
             main_ball.position,
             vec2(10.0, player.length),
             vec2(main_ball.size, main_ball.size),
         ) {
             println!("collision!");
+            main_ball.direction.x *= -1.0;
+            main_ball.direction.y *= -1.0;
         }
 
         // render stuff
