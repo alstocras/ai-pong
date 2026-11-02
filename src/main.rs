@@ -1,8 +1,12 @@
+use fastrand::*;
 use macroquad::prelude::*;
 
 // helper functions and vars
 fn is_off_screen_vertically(pos: Vec2) -> bool {
     return pos.y < 0.0 || pos.y > screen_height();
+}
+fn is_off_screen_horizontally(pos: Vec2) -> bool {
+    return pos.x < 0.0 || pos.x > screen_width();
 }
 fn are_two_things_colliding(
     thing1_pos: Vec2,
@@ -45,10 +49,18 @@ async fn main() {
         length: 75.0,
     };
 
+    // test hardcoded enemy
+    let mut hardcoded_enemy = Paddle {
+        y: screen_width() / 2.0,
+        speed: 200.0,
+        colour: RED,
+        length: 75.0,
+    };
+
     let mut main_ball = Ball {
         position: vec2(screen_width() / 2.0, screen_height() / 2.0),
-        speed: 150.0,
-        direction: vec2(-1.0, 0.0),
+        speed: 300.0,
+        direction: vec2(f32(), f32()),
         size: 15.0,
         colour: WHITE,
     };
@@ -75,9 +87,12 @@ async fn main() {
         let velocity: Vec2 = main_ball.direction * main_ball.speed * dt;
         main_ball.position += velocity;
         if is_off_screen_vertically(main_ball.position) {
-            main_ball.direction.x *= -1.0;
             main_ball.direction.y *= -1.0;
         }
+        if is_off_screen_horizontally(main_ball.position) {
+            main_ball.position = vec2(screen_width() / 2.0, screen_height() / 2.0);
+        }
+
         if are_two_things_colliding(
             vec2(10.0, player.y),
             main_ball.position,
@@ -89,8 +104,28 @@ async fn main() {
             main_ball.direction.y *= -1.0;
         }
 
+        // make enemy perfect (for now)
+        hardcoded_enemy.y = main_ball.position.y;
+        if are_two_things_colliding(
+            vec2(screen_width() - 20.0, hardcoded_enemy.y),
+            main_ball.position,
+            vec2(10.0, hardcoded_enemy.length),
+            vec2(main_ball.size, main_ball.size),
+        ) {
+            // bounce it
+            main_ball.direction.x *= -1.0;
+            main_ball.direction.y *= -1.0;
+        }
+
         // render stuff
         draw_rectangle(10.0, player.y, 10.0, player.length, player.colour);
+        draw_rectangle(
+            screen_width() - 20.0,
+            hardcoded_enemy.y,
+            10.0,
+            hardcoded_enemy.length,
+            hardcoded_enemy.colour,
+        );
         draw_circle(
             main_ball.position.x,
             main_ball.position.y,
