@@ -23,12 +23,26 @@ fn are_two_things_colliding(
         return false;
     }
 }
+fn perform_paddle_ball_collision(paddle: &Paddle, ball: &mut Ball) {
+    if are_two_things_colliding(
+        vec2(paddle.x, paddle.y),
+        ball.position,
+        vec2(paddle.width, paddle.length),
+        vec2(ball.size, ball.size),
+    ) {
+        // bounce it
+        ball.direction.x *= -1.0;
+        ball.direction.y *= -1.0;
+    }
+}
 
 struct Paddle {
     y: f32,
+    x: f32,
     speed: f32,
     colour: Color,
     length: f32,
+    width: f32,
 }
 
 struct Ball {
@@ -44,17 +58,21 @@ async fn main() {
     // player paddle
     let mut player = Paddle {
         y: screen_width() / 2.0,
-        speed: 200.0,
+        x: 10.0,
+        speed: 500.0,
         colour: GOLD,
         length: 75.0,
+        width: 10.0,
     };
 
     // test hardcoded enemy
     let mut hardcoded_enemy = Paddle {
-        y: screen_width() / 2.0,
+        y: screen_height() / 2.0,
+        x: screen_width() - 1.0,
         speed: 200.0,
         colour: RED,
         length: 75.0,
+        width: 10.0,
     };
 
     let mut main_ball = Ball {
@@ -93,36 +111,24 @@ async fn main() {
             main_ball.position = vec2(screen_width() / 2.0, screen_height() / 2.0);
         }
 
-        if are_two_things_colliding(
-            vec2(10.0, player.y),
-            main_ball.position,
-            vec2(10.0, player.length),
-            vec2(main_ball.size, main_ball.size),
-        ) {
-            // bounce it
-            main_ball.direction.x *= -1.0;
-            main_ball.direction.y *= -1.0;
-        }
+        // make enemy OP (for now)
+        hardcoded_enemy.y = main_ball.position.y - hardcoded_enemy.length / 2.0;
 
-        // make enemy perfect (for now)
-        hardcoded_enemy.y = main_ball.position.y;
-        if are_two_things_colliding(
-            vec2(screen_width() - 20.0, hardcoded_enemy.y),
-            main_ball.position,
-            vec2(10.0, hardcoded_enemy.length),
-            vec2(main_ball.size, main_ball.size),
-        ) {
-            // bounce it
-            main_ball.direction.x *= -1.0;
-            main_ball.direction.y *= -1.0;
-        }
+        perform_paddle_ball_collision(&player, &mut main_ball);
+        perform_paddle_ball_collision(&hardcoded_enemy, &mut main_ball);
 
         // render stuff
-        draw_rectangle(10.0, player.y, 10.0, player.length, player.colour);
         draw_rectangle(
-            screen_width() - 20.0,
+            player.x,
+            player.y,
+            player.width,
+            player.length,
+            player.colour,
+        );
+        draw_rectangle(
+            hardcoded_enemy.x,
             hardcoded_enemy.y,
-            10.0,
+            hardcoded_enemy.width,
             hardcoded_enemy.length,
             hardcoded_enemy.colour,
         );
