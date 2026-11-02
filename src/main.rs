@@ -113,7 +113,7 @@ async fn main() {
         }
 
         // update enemy x (to stay in the correct spot even if window is resized)
-        hardcoded_enemy.x = screen_width() - 10.0;
+        hardcoded_enemy.x = screen_width() - hardcoded_enemy.width - 10.0;
 
         // make enemy OP (for now)
         hardcoded_enemy.y = main_ball.position.y - hardcoded_enemy.length / 2.0;
