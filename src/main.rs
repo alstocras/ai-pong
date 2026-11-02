@@ -75,7 +75,8 @@ async fn main() {
         let velocity: Vec2 = main_ball.direction * main_ball.speed * dt;
         main_ball.position += velocity;
         if is_off_screen_vertically(main_ball.position) {
-            main_ball.position = vec2(screen_width() / 2.0, screen_height() / 2.0);
+            main_ball.direction.x *= -1.0;
+            main_ball.direction.y *= -1.0;
         }
         if are_two_things_colliding(
             vec2(10.0, player.y),
@@ -83,7 +84,7 @@ async fn main() {
             vec2(10.0, player.length),
             vec2(main_ball.size, main_ball.size),
         ) {
-            println!("collision!");
+            // bounce it
             main_ball.direction.x *= -1.0;
             main_ball.direction.y *= -1.0;
         }
