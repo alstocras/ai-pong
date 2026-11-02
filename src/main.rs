@@ -33,7 +33,7 @@ fn perform_paddle_ball_collision(paddle: &Paddle, ball: &mut Ball) {
         // bounce it
         ball.direction.x *= -1.0;
         ball.direction.y *= -1.0;
-        ball.speed += paddle.speed / 2.0;
+        ball.speed += paddle.speed / 10.0 + paddle.direction.y;
     }
 }
 
@@ -44,6 +44,7 @@ struct Paddle {
     colour: Color,
     length: f32,
     width: f32,
+    direction: Vec2,
 }
 
 struct Ball {
@@ -64,6 +65,7 @@ async fn main() {
         colour: GOLD,
         length: 75.0,
         width: 10.0,
+        direction: vec2(0.0, 0.0),
     };
 
     // test hardcoded enemy
@@ -74,6 +76,7 @@ async fn main() {
         colour: RED,
         length: 75.0,
         width: 10.0,
+        direction: vec2(0.0, 0.0),
     };
 
     let mut main_ball = Ball {
@@ -94,11 +97,13 @@ async fn main() {
         if is_key_down(KeyCode::Y) || is_key_down(KeyCode::W) {
             if !is_too_high {
                 player.y -= player.speed * dt;
+                player.direction = vec2(0.0, -5.0);
             }
         }
         if is_key_down(KeyCode::I) || is_key_down(KeyCode::S) {
             if !is_too_low {
                 player.y += player.speed * dt;
+                player.direction = vec2(0.0, 5.0);
             }
         }
 
