@@ -25,7 +25,10 @@ fn are_two_things_colliding(
 }
 fn perform_paddle_ball_collision(paddle: &Paddle, ball: &mut Ball) {
     if are_two_things_colliding(
-        vec2(paddle.x, paddle.y),
+        vec2(
+            paddle.x + paddle.width / 2.0,
+            paddle.y + paddle.length / 2.0,
+        ),
         ball.position,
         vec2(paddle.width, paddle.length),
         vec2(ball.size, ball.size),
