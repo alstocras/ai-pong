@@ -156,12 +156,6 @@ async fn main() {
         perform_paddle_ball_collision(&mut player, &mut main_ball);
         perform_paddle_ball_collision(&mut hardcoded_enemy, &mut main_ball);
 
-        // point print
-        println!(
-            "you: {:?}, opp: {:?}",
-            player.points, hardcoded_enemy.points
-        );
-
         // render stuff
         draw_rectangle(
             player.x,
@@ -182,6 +176,18 @@ async fn main() {
             main_ball.position.y,
             main_ball.size,
             main_ball.colour,
+        );
+
+        // points counter
+        let point_text = format!("{}:{}", player.points, hardcoded_enemy.points);
+        let point_text_dimen = measure_text(&point_text, None, 100, 1.0);
+
+        draw_text(
+            &point_text,
+            screen_width() / 2.0 - point_text_dimen.width / 2.0,
+            point_text_dimen.height + 20.0,
+            100.0,
+            GREEN,
         );
 
         next_frame().await;
