@@ -33,7 +33,9 @@ fn perform_paddle_ball_collision(paddle: &Paddle, ball: &mut Ball) {
         // bounce it
         ball.direction.x *= -1.0;
         ball.direction.y *= -1.0;
-        ball.speed += paddle.speed / 10.0 + paddle.direction.y;
+        ball.direction.y += paddle.direction.y * 0.05;
+        ball.direction.x += paddle.direction.x * 0.05;
+        ball.speed += paddle.speed / 10.0;
     }
 }
 
@@ -59,7 +61,7 @@ struct Ball {
 async fn main() {
     // player paddle
     let mut player = Paddle {
-        y: screen_width() / 2.0,
+        y: screen_height() / 2.0,
         x: 10.0,
         speed: 500.0,
         colour: GOLD,
@@ -88,6 +90,10 @@ async fn main() {
     };
 
     loop {
+        // reset direction
+        player.direction = vec2(0.0, 0.0);
+        hardcoded_enemy.direction = vec2(0.0, 0.0);
+
         // to ensure the movement is the same regardless of framerate
         let dt = get_frame_time();
         let is_too_high: bool = player.y < 0.0;
