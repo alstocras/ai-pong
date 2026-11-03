@@ -1,3 +1,6 @@
+mod ai;
+
+use ai::*;
 use fastrand::*;
 use macroquad::prelude::*;
 
