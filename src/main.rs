@@ -33,9 +33,23 @@ fn perform_paddle_ball_collision(paddle: &mut Paddle, ball: &mut Ball) {
         // bounce it
         ball.direction.x *= -1.0;
         ball.direction.y *= -1.0;
-        ball.direction.y += paddle.direction.y * 0.75;
-        ball.direction.x += paddle.direction.x * 0.75;
+        ball.direction.y += paddle.direction.y + 0.05;
+        ball.direction.x += paddle.direction.x + 0.05;
         ball.speed += paddle.speed / 10.0;
+    }
+}
+fn player_gets_the_point(ball: &Ball) -> bool {
+    if ball.position.x >= screen_width() {
+        return true;
+    } else {
+        return false;
+    }
+}
+fn enemy_gets_the_point(ball: &Ball) -> bool {
+    if ball.position.x <= 0.0 {
+        return true;
+    } else {
+        return false;
     }
 }
 
@@ -119,6 +133,13 @@ async fn main() {
         // move ball
         let velocity: Vec2 = main_ball.direction * main_ball.speed * dt;
         main_ball.position += velocity;
+        // calc points
+        if player_gets_the_point(&main_ball) {
+            player.points += 1;
+        }
+        if enemy_gets_the_point(&main_ball) {
+            hardcoded_enemy.points += 1;
+        }
         if is_off_screen_vertically(main_ball.position) {
             main_ball.direction.y *= -1.0;
         }
