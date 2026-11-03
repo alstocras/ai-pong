@@ -138,6 +138,12 @@ async fn main() {
         perform_paddle_ball_collision(&mut player, &mut main_ball);
         perform_paddle_ball_collision(&mut hardcoded_enemy, &mut main_ball);
 
+        // point print
+        println!(
+            "you: {:?}, opp: {:?}",
+            player.points, hardcoded_enemy.points
+        );
+
         // render stuff
         draw_rectangle(
             player.x,
