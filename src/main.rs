@@ -36,9 +36,6 @@ fn perform_paddle_ball_collision(paddle: &mut Paddle, ball: &mut Ball) {
         ball.direction.y += paddle.direction.y * 0.75;
         ball.direction.x += paddle.direction.x * 0.75;
         ball.speed += paddle.speed / 10.0;
-
-        // if they hit it they get points
-        paddle.points += 1;
     }
 }
 
