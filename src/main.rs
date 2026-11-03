@@ -23,7 +23,7 @@ fn are_two_things_colliding(
         return false;
     }
 }
-fn perform_paddle_ball_collision(paddle: &Paddle, ball: &mut Ball) {
+fn perform_paddle_ball_collision(paddle: &mut Paddle, ball: &mut Ball) {
     if are_two_things_colliding(
         vec2(paddle.x, paddle.y),
         ball.position,
@@ -36,6 +36,9 @@ fn perform_paddle_ball_collision(paddle: &Paddle, ball: &mut Ball) {
         ball.direction.y += paddle.direction.y * 0.75;
         ball.direction.x += paddle.direction.x * 0.75;
         ball.speed += paddle.speed / 10.0;
+
+        // if they hit it they get points
+        paddle.points += 1;
     }
 }
 
@@ -47,6 +50,7 @@ struct Paddle {
     length: f32,
     width: f32,
     direction: Vec2,
+    points: u32,
 }
 
 struct Ball {
@@ -68,6 +72,7 @@ async fn main() {
         length: 75.0,
         width: 10.0,
         direction: vec2(0.0, 0.0),
+        points: 0,
     };
 
     // test hardcoded enemy
@@ -79,6 +84,7 @@ async fn main() {
         length: 75.0,
         width: 10.0,
         direction: vec2(0.0, 0.0),
+        points: 0,
     };
 
     let mut main_ball = Ball {
@@ -129,8 +135,8 @@ async fn main() {
         // make enemy OP (for now)
         hardcoded_enemy.y = main_ball.position.y - hardcoded_enemy.length / 2.0;
 
-        perform_paddle_ball_collision(&player, &mut main_ball);
-        perform_paddle_ball_collision(&hardcoded_enemy, &mut main_ball);
+        perform_paddle_ball_collision(&mut player, &mut main_ball);
+        perform_paddle_ball_collision(&mut hardcoded_enemy, &mut main_ball);
 
         // render stuff
         draw_rectangle(
