@@ -33,8 +33,8 @@ fn perform_paddle_ball_collision(paddle: &Paddle, ball: &mut Ball) {
         // bounce it
         ball.direction.x *= -1.0;
         ball.direction.y *= -1.0;
-        ball.direction.y += paddle.direction.y * 0.05;
-        ball.direction.x += paddle.direction.x * 0.05;
+        ball.direction.y += paddle.direction.y * 0.75;
+        ball.direction.x += paddle.direction.x * 0.75;
         ball.speed += paddle.speed / 10.0;
     }
 }
