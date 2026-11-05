@@ -123,13 +123,13 @@ async fn main() {
         if is_key_down(KeyCode::Y) || is_key_down(KeyCode::W) {
             if !is_too_high {
                 player.y -= player.speed * dt;
-                player.direction = vec2(0.0, -5.0);
+                player.direction = vec2(0.0, -1.0);
             }
         }
         if is_key_down(KeyCode::I) || is_key_down(KeyCode::S) {
             if !is_too_low {
                 player.y += player.speed * dt;
-                player.direction = vec2(0.0, 5.0);
+                player.direction = vec2(0.0, 1.0);
             }
         }
 
