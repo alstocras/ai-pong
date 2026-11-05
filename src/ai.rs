@@ -10,7 +10,7 @@ pub struct NeuralNetwork {
 }
 
 impl NeuralNetwork {
-    pub fn init_nn(&self) -> Self {
+    pub fn init_nn() -> Self {
         let mut layers: Vec<Layer> = Vec::new();
         layers.push(Layer { biases: vec![0.0] });
         layers.push(Layer {
@@ -29,6 +29,7 @@ impl NeuralNetwork {
                 total_sum += bias;
             }
         }
+        println!("total nn: {}", total_sum);
         return total_sum;
     }
 }

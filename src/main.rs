@@ -133,6 +133,10 @@ async fn main() {
             }
         }
 
+        // test my nn functions
+        let main_neural = NeuralNetwork::init_nn();
+        main_neural.run_through_net(&[6.0, 7.0]);
+
         // move ball
         let velocity: Vec2 = main_ball.direction * main_ball.speed * dt;
         main_ball.position += velocity;
