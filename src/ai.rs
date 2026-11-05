@@ -26,8 +26,15 @@ impl NeuralNetwork {
         let mut total_sum: f64 = 0.0;
         for layer in self.layers.iter() {
             for bias in layer.biases.iter() {
-                total_sum += bias;
+                for (index, weight) in self.weights.iter().enumerate() {
+                    if index < 2 {
+                        total_sum += inputs[index] * weight + bias;
+                    }
+                }
             }
+        }
+        if total_sum < 0.0 {
+            total_sum = 0.0;
         }
         println!("total nn: {}", total_sum);
         return total_sum;
