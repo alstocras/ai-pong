@@ -22,5 +22,13 @@ impl NeuralNetwork {
             weights: vec![random(), random(), random(), random(), random(), random()],
         };
     }
-    pub fn run_through_net(&self, inputs: &[f64; 2]) -> f64 {}
+    pub fn run_through_net(&self, inputs: &[f64; 2]) -> f64 {
+        let mut total_sum: f64 = 0.0;
+        for layer in self.layers.iter() {
+            for bias in layer.biases.iter() {
+                total_sum += bias;
+            }
+        }
+        return total_sum;
+    }
 }
