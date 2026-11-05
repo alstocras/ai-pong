@@ -1,19 +1,26 @@
 use rand::*;
 
 pub struct Layer {
-    pub weights: Vec<f64>,
     pub biases: Vec<f64>,
 }
 
 pub struct NeuralNetwork {
     pub layers: Vec<Layer>,
+    pub weights: Vec<f64>,
 }
 
-impl Layer {
-    pub fn init_layer() -> Self {
-        return Layer {
-            weights: vec![random(), random(), random(), random(), random(), random()],
+impl NeuralNetwork {
+    pub fn init_nn(&self) -> Self {
+        let mut layers: Vec<Layer> = Vec::new();
+        layers.push(Layer { biases: vec![0.0] });
+        layers.push(Layer {
             biases: vec![random(), random()],
+        });
+        layers.push(Layer { biases: vec![0.0] });
+        return NeuralNetwork {
+            layers,
+            weights: vec![random(), random(), random(), random(), random(), random()],
         };
     }
+    pub fn run_through_net(&self, inputs: &[f64; 2]) -> f64 {}
 }
