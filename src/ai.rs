@@ -14,12 +14,19 @@ impl NeuralNetwork {
         let mut layers: Vec<Layer> = Vec::new();
         layers.push(Layer { biases: vec![0.0] });
         layers.push(Layer {
-            biases: vec![random(), random()],
+            biases: vec![random_range(-1.0..1.0), random_range(-1.0..1.0)],
         });
         layers.push(Layer { biases: vec![0.0] });
         return NeuralNetwork {
             layers,
-            weights: vec![random(), random(), random(), random(), random(), random()],
+            weights: vec![
+                random_range(-1.0..1.0),
+                random_range(-1.0..1.0),
+                random_range(-1.0..1.0),
+                random_range(-1.0..1.0),
+                random_range(-1.0..1.0),
+                random_range(-1.0..1.0),
+            ],
         };
     }
     pub fn run_through_net(&self, inputs: &[f64; 2]) -> f64 {
@@ -33,6 +40,7 @@ impl NeuralNetwork {
                 }
             }
         }
+        // ReLU check (set every negative number to 0)
         if total_sum < 0.0 {
             total_sum = 0.0;
         }
