@@ -29,6 +29,7 @@ impl NeuralNetwork {
             ],
         };
     }
+
     pub fn run_through_net(&self, inputs: &[f64; 2]) -> f64 {
         let mut total_sum: f64 = 0.0;
         for layer in self.layers.iter() {
