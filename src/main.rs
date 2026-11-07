@@ -10,7 +10,7 @@ use types::*;
 
 #[macroquad::main("play pong against an ai")]
 async fn main() {
-    let game_state = GameState::Menu;
+    let mut game_state = GameState::Menu;
 
     // player paddle
     let mut player = Paddle {
@@ -38,14 +38,20 @@ async fn main() {
 
     let mut main_ball = Ball {
         position: vec2(screen_width() / 2.0, screen_height() / 2.0),
-        speed: 500.0,
-        direction: vec2(f32(), f32()),
+        speed: 10.0,
+        direction: vec2(f32() + 10.0, f32() + 10.0),
         size: 15.0,
         colour: WHITE,
     };
 
     loop {
         match game_state {
+            GameState::Menu => {
+                if is_key_down(KeyCode::Enter) {
+                    game_state = GameState::Game;
+                }
+            }
+            GameState::Training => {}
             GameState::Game => {
                 // reset direction
                 player.direction = vec2(0.0, 0.0);
@@ -72,7 +78,7 @@ async fn main() {
 
                 // test my nn functions
                 let main_neural = NeuralNetwork::init_nn();
-                main_neural.run_through_net(&[6.0, 7.0]);
+                main_neural.run_through_net(&[6.0, 7.0, 8.0, 10.0]);
 
                 // move ball
                 let velocity: Vec2 = main_ball.direction * main_ball.speed * dt;
