@@ -6,6 +6,12 @@ pub enum GameState {
     Training,
 }
 
+pub enum NeuronType {
+    Hidden,
+    Input,
+    Output,
+}
+
 pub struct Paddle {
     pub y: f32,
     pub x: f32,
