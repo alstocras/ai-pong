@@ -11,6 +11,7 @@ use types::*;
 #[macroquad::main("play pong against an ai")]
 async fn main() {
     let mut game_state = GameState::Menu;
+    let main_neural = NeuralNetwork::init_nn();
 
     // player paddle
     let mut player = Paddle {
@@ -77,7 +78,6 @@ async fn main() {
                 }
 
                 // test my nn functions
-                let main_neural = NeuralNetwork::init_nn();
                 main_neural.run_through_net(&[6.0, 7.0, 8.0, 10.0]);
 
                 // move ball
